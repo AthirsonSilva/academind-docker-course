@@ -1,0 +1,12 @@
+# docker-compose run --rm npm init
+version: '3.8'
+
+services:
+  npm:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./:/app
