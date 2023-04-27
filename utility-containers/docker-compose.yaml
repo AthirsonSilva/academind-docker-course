@@ -6,6 +6,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - USER_ID=${UID}
+        - GROUP_ID=${GID}
     tty: true
     stdin_open: true
     volumes:
