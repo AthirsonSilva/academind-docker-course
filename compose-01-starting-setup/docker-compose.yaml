@@ -1,56 +1,39 @@
+---
 version: '3.8'
-
 services:
   mongodb:
     image: mongo
     container_name: mongodb
     restart: on-failure
-    ports:
-      - 27017:27017
-    volumes:
-      - data:/data/db
+    ports: [27017:27017]
+    volumes: [data:/data/db]
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
-    networks:
-      - goals-net
-    env_file:
-      - ./env/mongo.env
-
+    networks: [goals-net]
+    env_file: [./env/mongo.env]
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     container_name: backend
     restart: on-failure
-    ports:
-      - 80:80
-    volumes:
-      - ./backend:/app
-      - logs:/app/logs
-      - /app/node_mdoules
-    networks:
-      - goals-net
-    env_file:
-      - ./env/backend.env
-    depends_on:
-      - mongodb
-
+    ports: [80:80]
+    volumes: [./backend:/app, logs:/app/logs, /app/node_mdoules]
+    networks: [goals-net]
+    env_file: [./env/backend.env]
+    depends_on: [mongodb]
   frontend:
     build:
       context: buildContext
       dockerfile: Dockerfile
       args:
-        some-arg: 'bah'
-    ports:
-      - 3000:3000
-    volumes:
-      - ./frontend/src:/app/src
+        some-arg: bah
+    ports: [3000:3000]
+    volumes: [./frontend/src:/app/src]
     stdin_open: true
     tty: true
-    depends_on:
-      - backend
-
+    depends_on: [backend]
 volumes:
   data:
   logs:
