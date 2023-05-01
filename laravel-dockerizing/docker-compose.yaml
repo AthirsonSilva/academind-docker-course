@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   server:
@@ -21,7 +21,7 @@ services:
     volumes:
       - ./src:/var/www/html:delegated
   mysql:
-    image: mysql:5.ock7
+    image: mysql
     env_file:
       - ./env/mysql.env
   composer:
@@ -36,10 +36,10 @@ services:
       dockerfile: dockerfiles/php.dockerfile
     volumes:
       - ./src:/var/www/html
-    entrypoint: [ "php", "/var/www/html/artisan" ]
+    entrypoint: [ 'php', '/var/www/html/artisan' ]
   npm:
     image: node:14
     working_dir: /var/www/html
-    entrypoint: [ "npm" ]
+    entrypoint: [ 'npm' ]
     volumes:
       - ./src:/var/www/html
