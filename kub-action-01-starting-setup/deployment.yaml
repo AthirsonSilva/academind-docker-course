@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: second-app
+spec:
+  replicas: 3
+  selector:
+    matchExpressions:
+      - { key: app, operator: In, values: [second-app] }
+  template:
+    metadata:
+      labels:
+        app: second-app
+        tier: backend
+    spec:
+      containers:
+        - name: second-node
+          image: athirson/kubernetes-first-app:latest
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
